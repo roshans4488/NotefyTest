@@ -1,0 +1,147 @@
+/*{
+  margin:0;
+  padding:0;
+}*/
+
+
+
+html, body, #fullheight {
+    min-height: 100% !important;
+    height: 100%;
+}
+
+/* Creating basic sticky note */
+.stickynote{
+  font-family:arial,sans-serif;
+  font-size:100%;
+  margin:0em;
+  background:#666;
+  color:#fff;
+  box-sizing: initial;
+}
+.stickynote .note-title, .note-content{
+  font-size:100%;
+  font-weight:normal;
+}
+
+.stickynote .note-title {
+	font-size: 140%;
+    font-weight: bold;
+	height: 45px;
+}
+
+.stickynote .note-content {
+	min-height:75%;
+}
+
+.stickynote ul,li{
+  list-style:none;
+}
+.stickynote ul{
+  overflow:hidden;
+  padding:3em;
+}
+.stickynote ul li a{
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:25em;
+  width:25em;
+  padding:0em;
+}
+.stickynote ul li{
+  margin:1em;
+  float:left;
+}
+
+/* Padding for the sticky note header */
+.stickynote ul li h2{
+  font-size:140%;
+  font-weight:bold;
+  padding-bottom:10px;
+}
+.stickynote ul li .note-content{
+  font-family:"Reenie Beanie",arial,sans-serif;
+  font-size:100%;
+}
+
+ul li textarea {
+	background: rgba(0, 0, 0, 0); /* transparent background */
+       resize: none;
+       width:100%;
+       padding:10px 5px 5px 5px;
+       margin:0;
+       border-style:none;
+}
+
+/* sticky note drop shadow effect */
+.stickynote ul li a{
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:25em;
+  width:25em;
+  padding:0em;
+  /* Firefox */
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  /* Safari+Chrome */
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  /* Opera */
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+}
+
+ul li div span {
+	background: rgba(0, 0, 0, 0); /* transparent background */
+}
+
+/* Zoom the sticky note on hower and focus */
+/*
+ul li a:hover,ul li a:focus{
+  -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-transform: scale(1.25);
+  -moz-transform: scale(1.25);
+  -o-transform: scale(1.25);
+  position:relative;
+  z-index:5;
+}
+*/
+
+/* Smooth zoom transition */
+/*
+.stickynote ul li a{
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:25em;
+  width:25em;
+  padding:0em;
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  -moz-transition:-moz-transform .15s linear;
+  -o-transition:-o-transform .15s linear;
+  -webkit-transition:-webkit-transform .15s linear;
+}
+*/
+/* colour */
+.stickynote ul li:nth-child(even) a{
+ /* -o-transform:rotate(4deg);
+  -webkit-transform:rotate(4deg);
+  -moz-transform:rotate(4deg);*/
+  /*position:relative;
+  top:5px;*/
+  background:#cfc;
+}
+.stickynote ul li:nth-child(3n) a{
+/*  -o-transform:rotate(-3deg);
+  -webkit-transform:rotate(-3deg);
+  -moz-transform:rotate(-3deg);*/
+  /*position:relative;
+  top:-5px;*/
+  background:#ccf;
+}

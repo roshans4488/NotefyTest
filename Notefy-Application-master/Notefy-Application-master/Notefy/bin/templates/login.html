@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link rel="icon" href="notefy/favicon/favicon.ico">
+	
+    <title>Notefy - Note making made easier</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="notefy/css/login.css" rel="stylesheet">
+  </head>
+
+  <body>
+       
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Notefy</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Login</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+	<div class="row">
+	
+      <div class="starter-template col-md-8">
+      	
+        <h1>Notefy</h1>
+        <br />
+        <br />
+        <br />
+        <p class="lead">Notes you can carry with you</p>
+        <p class="lead">Create. Organize. Share.</p>
+        <img src="notefy/images/welcome.jpg"/>
+      </div>
+      
+      <div class="sign-in-form col-md-4">
+      	<br />
+      	<br />
+      	<div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+      	<form class="form-signin" role="form" action="#" th:action="@{/login}" th:object="${person}" method="post">
+    	    <h2 class="form-signin-heading">Existing User</h2>
+   	  		<label for="inputEmail" class="sr-only">Email address</label>
+    	    <table>
+    	     <!-- 
+    	   <div> <input type="text" id="inputEmail" name="username" class="form-control" placeholder="User Name" th:field="*{email}" required autofocus></div>
+    	    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+    	    <label for="inputPassword" class="sr-only">Password</label>
+    	   <div> <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" th:field="*{password}" required></div>
+    	    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+   		   -->
+   		     <div><label> User Name: <input type="text" name="username"/> </label></div>
+            <div><label> Password: <input type="password" name="password"/> </label></div>
+   		     <!--
+   		     <table>
+                <tr>
+                    <td> User Name : </td>
+                    <td><input type="text" th:field="*{email}" /></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+                </tr>
+                <tr>
+                    <td> Password: </td>
+                    <td><input type="password" th:field="*{password}" /></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                </tr>
+            </table>
+   		    -->
+   		    </table>
+   		    <div class="checkbox">
+   		       <label>
+    	       <input type="checkbox" value="remember-me"> Remember me
+       		   </label>
+     	   </div>
+     	   <table Style = "border-collapse:separate;border-spacing:10px" >
+     	    <tr>
+    	    <td><button  class="button_Login"  type="submit">Login</button></td>
+    	     <td><button class="button_Login"  type="submit" value = "Forgot Password">Forgot Password</button></td>
+    	    </tr>
+    	    </table>
+    	    <div>
+    	    
+    	   <!--  
+    	    <input type="hidden"
+    		name="${X-CSRF-PARAM.parameterName}"
+    		value="${X-CSRF-TOKEN.token}"/>
+    	    
+    	     -->
+    	    
+    	   </form>
+    	   
+    	   
+    	   
+    	    <form class="form-singup" role="form" action="#" th:action="@{/register}" th:object="${person}" method="get">
+    	      <h2 class="form-signup-heading">New User </h2>
+    	   <!--  <table>
+                <tr>
+                    <td> User Name: </td>
+                    <td><input type="text" th:field="*{email}" /></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+                </tr>
+                <tr>
+                    <td> Password: </td>
+                    <td><input type="password" th:field="*{password}" /></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                </tr>
+               
+            </table> -->
+    	   <button  class="btn btn-lg btn-primary btn-block" type="submit" value = "Sign Up">Sign Up
+    	   
+    	   </form>
+    	   
+    	   
+    	   
+    	   
+    	   
+    	   
+    	   
+    	   
+    	   
+    	   
+      </div>
+	
+	</div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="JQuery/jquery-1.11.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="notefy/js/index.js"></script>
+  </body>
+</html>

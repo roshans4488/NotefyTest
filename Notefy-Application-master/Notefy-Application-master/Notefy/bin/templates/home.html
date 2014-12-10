@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link rel="icon" href="notefy/favicon/favicon.ico">
+	
+    <title>Notefy - Note making made easier</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="notefy/css/home.css" rel="stylesheet">
+    <script src="JQuery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+	
+    var DEBUG = true;
+    var stickyNotes = null;
+    var stickyArchiveNotes = null;
+    var stickyTrashNotes = null;
+    
+    $(document).ready(function(){
+    	fetchNotes();
+    	fetchArchiveNotes();
+    	fetchTrashNotes();
+    });
+    
+    function fetchNotes() {
+    	stickyNotes = "";
+    	//JSON CALL should come here to fetch the notes - Priya Pawar
+    	
+    	$.ajax({
+			    type: "POST",
+				contentType: "application/json",
+				dataType: "json",
+				data: JSON.stringify({ folder : "Notes", color : "black"}),
+				url: "http://localhost:8080/fetchnotes",
+		        success: function(data){        
+		                alert("Upload success");
+		                var json_x = data;
+		                var ret_date = data['date'];
+		                alert(ret_date);
+		         },
+		         error: function (response) {
+		        	 // error handler
+		              alert(response);
+		         }
+		    });
+    	
+    	var initialization = [{ "note_id":"10980", "note_title":"Title for Priya", "note_content":"Note Content", "note_created_time":"Today", "note_modified_time":"Tomorrow", "note_color":"Blue", "note_permissions":"public"	},{ "note_id":"20009", "note_title":"Title for Roshan", "note_content":"Note Content for roshan", "note_created_time":"Today", "note_modified_time":"Tomorrow", "note_color":"Blue", "note_permissions":"public"	}];
+    	stickyNotes = eval(initialization);
+    	//alert(stickyNotes.length); //Only works with arrays
+    	var notesToAdd = $("#notes");
+    	for(var i in stickyNotes) {
+    		$("#notes").append("<li id=''>" +
+        			"<a href='#' style='position:relative;'>" +
+        			"<textarea class='note-title' placeholder='Untitled'></textarea>" +
+        			"<hr style='margin:0px 5px 0px 5px;border-color:grey' />" +
+        			"<textarea class='note-content' placeholder='Your content here'></textarea>" +
+        				"<div style='text-align:center;position:relative;bottom:0em;margin:auto'>" +
+        					"<span style='margin:15px;' class='glyphicon glyphicon-ok' aria-hidden='true' title='Save' onclick='saveNote(this)' id ='save'></span>" +
+                   			"<span style='margin:15px;' class='glyphicon glyphicon-fullscreen' aria-hidden='true' title='Full Screen' onclick='fullscreenNote(this)'></span>" +
+                    		"<span style='margin:15px;' class='glyphicon glyphicon-save' aria-hidden='true' title='Download' onclick='downloadNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-folder-open' aria-hidden='true' title='Archive' onclick='archiveNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-share-alt' aria-hidden='true' title='Share' onclick='shareNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-trash' aria-hidden='true' title='Delete' onclick='deleteNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-info-sign' aria-hidden='true' title='Info' onclick='settingsNote(this)'></span>" +
+                 		"</div>" +
+        			"</a>" +
+        		"</li>");
+        	notesToAdd.find('li:last').attr('id',stickyNotes[i].note_id);
+        	notesToAdd.find('li:last textarea.note-title').html(stickyNotes[i].note_title);
+        	notesToAdd.find('li:last textarea.note-content').html(stickyNotes[i].note_content);
+    	} //End of for loop
+    	
+    	//alert(stickyNotes); Object
+    	//alert(stickyNotes.note_id); Works!!
+    }
+    
+    function fetchArchiveNotes() {
+    	stickyArchiveNotes = "";
+    	//JSON CALL should come here to fetch the notes - Priya Pawar
+    	
+    	$.ajax({
+			    type: "POST",
+				contentType: "application/json",
+				dataType: "json",
+				data: JSON.stringify({ folder : "Archive", color : "black"}),
+				url: "http://localhost:8080/fetchnotes",
+		        success: function(data){        
+		                alert("Upload success");
+		                var json_x = data;
+		                var ret_date = data['date'];
+		                alert(ret_date);
+		         },
+		         error: function (response) {
+		        	 // error handler
+		              alert(response);
+		         }
+		    });
+    	
+    	var initialization = [{ "note_id":"10980", "note_title":"Title for Priya", "note_content":"Note Content", "note_created_time":"Today", "note_modified_time":"Tomorrow", "note_color":"Blue", "note_permissions":"public"	},{ "note_id":"10980", "note_title":"Title for Priya", "note_content":"Note Content", "note_created_time":"Today", "note_modified_time":"Tomorrow", "note_color":"Blue", "note_permissions":"public"	}];
+    	stickyArchiveNotes = eval(initialization);
+    	//alert(stickyNotes.length); //Only works with arrays
+    	var notesToAdd = $("#archive_notes");
+    	for(var i in stickyArchiveNotes) {
+    		notesToAdd.append("<li id=''>" +
+        			"<a href='#' style='position:relative;'>" +
+        			"<textarea class='note-title' placeholder='Untitled'></textarea>" +
+        			"<hr style='margin:0px 5px 0px 5px;border-color:grey' />" +
+        			"<textarea class='note-content' placeholder='Your content here'></textarea>" +
+        				"<div style='text-align:center;position:relative;bottom:0em;margin:auto'>" +
+        					"<span style='margin:15px;' class='glyphicon glyphicon-ok' aria-hidden='true' title='Save' onclick='saveNote(this)' id ='save'></span>" +
+                   			"<span style='margin:15px;' class='glyphicon glyphicon-fullscreen' aria-hidden='true' title='Full Screen' onclick='fullscreenNote(this)'></span>" +
+                    		"<span style='margin:15px;' class='glyphicon glyphicon-save' aria-hidden='true' title='Download' onclick='downloadNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-folder-open' aria-hidden='true' title='Archive' onclick='archiveNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-share-alt' aria-hidden='true' title='Share' onclick='shareNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-trash' aria-hidden='true' title='Delete' onclick='deleteNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-info-sign' aria-hidden='true' title='Info' onclick='settingsNote(this)'></span>" +
+                 		"</div>" +
+        			"</a>" +
+        		"</li>");
+        	notesToAdd.find('li:last').attr('id',stickyNotes[i].note_id);
+        	notesToAdd.find('li:last textarea.note-title').html(stickyNotes[i].note_title);
+        	notesToAdd.find('li:last textarea.note-content').html(stickyNotes[i].note_content);
+    	} //End of for loop
+    	
+    	//alert(stickyNotes); Object
+    	//alert(stickyNotes.note_id); Works!!
+    }
+    
+    function fetchTrashNotes() {
+    	stickyTrashNotes = "";
+    	//JSON CALL should come here to fetch the notes - Priya Pawar
+    	
+    	$.ajax({
+			    type: "POST",
+				contentType: "application/json",
+				dataType: "json",
+				data: JSON.stringify({ folder : "Trash", color : "black"}),
+				url: "http://localhost:8080/fetchnotes",
+		        success: function(data){        
+		                alert("Upload success");
+		                var json_x = data;
+		                var ret_date = data['date'];
+		                alert(ret_date);
+		         },
+		         error: function (response) {
+		        	 // error handler
+		              alert(response);
+		         }
+		    });
+    	
+    	
+    	
+    	var initialization = [{ "note_id":"10980", "note_title":"Title for Priya", "note_content":"Note Content", "note_created_time":"Today", "note_modified_time":"Tomorrow", "note_color":"Blue", "note_permissions":"public"	},{ "note_id":"20009", "note_title":"Title for Roshan", "note_content":"Note Content for roshan", "note_created_time":"Today", "note_modified_time":"Tomorrow", "note_color":"Blue", "note_permissions":"public"	}];
+    	stickyTrashNotes = eval(initialization);
+    	//alert(stickyNotes.length); //Only works with arrays
+    	var notesToAdd = $("#trash_notes");
+    	for(var i in stickyTrashNotes) {
+    		$("#trash_notes").append("<li id=''>" +
+        			"<a href='#' style='position:relative;'>" +
+        			"<textarea class='note-title' placeholder='Untitled'></textarea>" +
+        			"<hr style='margin:0px 5px 0px 5px;border-color:grey' />" +
+        			"<textarea class='note-content' placeholder='Your content here'></textarea>" +
+        				"<div style='text-align:center;position:relative;bottom:0em;margin:auto'>" +
+        					"<span style='margin:15px;' class='glyphicon glyphicon-ok' aria-hidden='true' title='Save' onclick='saveNote(this)' id ='save'></span>" +
+                   			"<span style='margin:15px;' class='glyphicon glyphicon-fullscreen' aria-hidden='true' title='Full Screen' onclick='fullscreenNote(this)'></span>" +
+                    		"<span style='margin:15px;' class='glyphicon glyphicon-save' aria-hidden='true' title='Download' onclick='downloadNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-folder-open' aria-hidden='true' title='Archive' onclick='archiveNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-share-alt' aria-hidden='true' title='Share' onclick='shareNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-trash' aria-hidden='true' title='Delete' onclick='deleteNote(this)'></span>" +
+                     		"<span style='margin:15px;' class='glyphicon glyphicon-info-sign' aria-hidden='true' title='Info' onclick='settingsNote(this)'></span>" +
+                 		"</div>" +
+        			"</a>" +
+        		"</li>");
+        	notesToAdd.find('li:last').attr('id',stickyNotes[i].note_id);
+        	notesToAdd.find('li:last textarea.note-title').html(stickyNotes[i].note_title);
+        	notesToAdd.find('li:last textarea.note-content').html(stickyNotes[i].note_content);
+    	} //End of for loop
+    	
+    	//alert(stickyNotes); Object
+    	//alert(stickyNotes.note_id); Works!!
+    }
+    
+	function addNewNote() {
+         // Adding the sticky notes on click of new button
+                  
+         notes = $("#notes"); 
+         notes.append("<li id='1000001'>" +
+			"<a href='#' style='position:relative;'>" +
+			"<textarea class='note-title' placeholder='Untitled'></textarea>" +
+			"<hr style='margin:0px 5px 0px 5px;border-color:grey' />" +
+			"<textarea class='note-content' placeholder='Your content here'></textarea>" +
+				"<div style='text-align:center;position:relative;bottom:0em;margin:auto'>" +
+					"<span style='margin:15px;' class='glyphicon glyphicon-ok' aria-hidden='true' title='Save' onclick='saveNote(this)' id ='save'></span>" +
+           			"<span style='margin:15px;' class='glyphicon glyphicon-fullscreen' aria-hidden='true' title='Full Screen' onclick='fullscreenNote(this)'></span>" +
+            		"<span style='margin:15px;' class='glyphicon glyphicon-save' aria-hidden='true' title='Download' onclick='downloadNote(this)'></span>" +
+             		"<span style='margin:15px;' class='glyphicon glyphicon-folder-open' aria-hidden='true' title='Archive' onclick='archiveNote(this)'></span>" +
+             		"<span style='margin:15px;' class='glyphicon glyphicon-share-alt' aria-hidden='true' title='Share' onclick='shareNote(this)'></span>" +
+             		"<span style='margin:15px;' class='glyphicon glyphicon-trash' aria-hidden='true' title='Delete' onclick='deleteNote(this)'></span>" +
+             		"<span style='margin:15px;' class='glyphicon glyphicon-info-sign' aria-hidden='true' title='Info' onclick='settingsNote(this)'></span>" +
+         		"</div>" +
+			"</a>" +
+		"</li>");
+         	 
+         		}
+	
+	function saveNote(e) {
+		alert("Note is being saved!");
+		var li = $(e).parents("li");
+		//alert("This is <li>:"+li.html());
+		var id = li.attr("id");
+		var title = li.find("textarea.note-title");
+		var content = li.find("textarea.note-content");
+		if(DEBUG) {
+			alert("Note ID: "+id);
+			alert("Note Title: "+title.val());
+			alert("Note Content: "+content.val());
+		}
+		if(title.val() == "" && content.val() == "") {
+			alert("Note is empty. Cannot be saved!");
+			return false;
+		}
+		//Save the note using a AJAX query to the backend
+		
+		$.ajax({
+			    type: "POST",
+				contentType: "application/json",
+				dataType: "json",
+				data: JSON.stringify({ title : title.val() , content : content.val(), color : "black"}),
+				url: "http://localhost:8080/save",
+		        success: function(data){        
+		                alert("Upload success");
+		                var json_x = data;
+		                var ret_date = data['date'];
+		                alert(ret_date);
+		         },
+		         error: function (response) {
+		        	 // error handler
+		              alert(response);
+		         }
+		    });
+		
+		
+		resizeNote(li);
+	}
+	
+	function fullscreenNote() {
+		alert("Note is being made fullscreen!");
+	}
+	
+	function downloadNote() {
+		alert("Note is being downloaded!");
+	}
+	
+	function archiveNote(e) {
+		alert("Note is being archived!");
+		var li = $(e).parents("li");
+		var title = li.find("textarea.note-title");
+		alert(li.html());
+		$("#archive_notes").append("<li id='"+li.attr('id')+"'>"+li.html()+"</li>");
+		$("#archive_notes").find('li:last textarea.note-content').val(li.find('textarea.note-content').val());
+		$("#archive_notes").find('li:last textarea.note-title').val(li.find('textarea.note-title').val());
+		
+		$.ajax({
+		    type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+	    	data: JSON.stringify({ title : title.val(), source: "Notes", dest: "Archive" }),
+			url: "http://localhost:8080/move",
+	        success: function(){        
+	                alert("Archive success");
+	         },
+	         error: function (response) {
+	        	 // error handler
+	              alert(response);
+	         }
+	    });
+		
+		
+		li.remove();
+	}
+	
+	function shareNote(e) {
+		alert("Note is being shared!");
+		var li = $(e).parents("li");
+		var title = li.find("textarea.note-title");
+		
+		$.ajax({
+		    type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+	    	data: JSON.stringify({ title : title.val(), folder: "Notes" }),
+			url: "http://localhost:8080/share",
+			success: function(response){        
+	                alert("Share success");
+	          },
+	         error: function (response) {
+	        	 // error handler
+	              alert(response);
+	         }
+	    });
+	}
+	
+	function deleteNote(e) {
+		alert("Note is being deleted!");
+		var li = $(e).parents("li");
+		var title = li.find("textarea.note-title");
+		
+		alert(li.html());
+		$("#trash_notes").append("<li id='"+li.attr('id')+"'>"+li.html()+"</li>");
+		$("#trash_notes").find('li:last textarea.note-content').val(li.find('textarea.note-content').val());
+		$("#trash_notes").find('li:last textarea.note-title').val(li.find('textarea.note-title').val());
+		
+		
+		$.ajax({
+		    type: "DELETE",
+			contentType: "application/json",
+			dataType: "json",
+	    	data: JSON.stringify({ title : title.val() }),
+			url: "http://localhost:8080/delete",
+	        success: function(){        
+	                alert("Delete success");
+	         },
+	         error: function (response) {
+	        	 // error handler
+	              alert(response);
+	         }
+	    });
+		
+		li.remove();
+	}
+		
+	function settingsNote() {
+		alert("Showing note settings!");
+	}
+	
+	function resizeNote(e) {
+		//alert($(e).html());
+		//$(e).css('width','100px');
+		//$(e).css('height','100px');
+		alert("Note has been resized!");
+	}
+	
+	function searchNote() {
+		alert("Note is being searched");
+		var searchText = $("#searchText");
+		if(DEBUG) {
+			alert("Search Text: "+searchText.val());	
+		}
+		
+		$.ajax({
+		    type: "POST",
+			contentType: "application/json",
+			dataType: "json",
+	    	data: JSON.stringify({ title : searchText.val(), folder: "Notes" }),
+			url: "http://localhost:8080/search",
+			success: function(response){        
+	                alert("Search successfull");
+	          },
+	         error: function (response) {
+	        	 // error handler
+	              alert(response);
+	         }
+	    });
+		
+		
+		
+	}
+	
+	</script>
+  </head>
+
+  <body style="height:100%">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Notefy</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav" style="float:right;">
+        		<li><a href="#" style="padding-left:5px;padding-right:5px;" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</a></li>
+        		<li><a href="#" style="padding-left:5px;padding-right:5px;">|</a></li>
+        		<li><a href="#" style="padding-left:5px;padding-right:5px;padding-top:14px;padding-bottom:0px;">
+				<form style="margin:0px;padding:0px;" th:action="@{/logout}" method="post">
+				<input style="margin:0px;padding:0px;background-color:#000;border:0px;" class="button_Login" type="submit" value="Sign Out"/>
+				</form>
+				</a></li>
+       	  </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container" style="padding: 50px 0px 0px 0px;background-color:green;width:100%;min-height:100px;height:100%;">
+	<div class="row" style="margin:0px;background-color:blue;padding:0px;overflow:auto;min-height:100px;height:100%;">
+	
+		<h3 style= 'position:absolute;left:1060px;top:0px;color:white;font-weight: bold' th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
+        <form th:action="@{/logout}" method="post">
+			<input style= 'position:absolute;left:1100px;top:50px' class="button_Login" type="submit" value="Sign Out"/>
+		</form>
+	
+    <!-- PLace your HTML content here -->
+	
+	<div id="left-section" class="col-md-2" style="background-color:#E8E8E8;float:left;padding:0px;min-height:100%;border-right:1px solid #337AB7">
+		<span style="display:block;text-align:center;height:50px;line-height:50px;background-color:#fff;">
+		Notes you can carry
+		</span>
+	<ul class="nav nav-pills nav-stacked" style="">
+  		<li role="presentation" class="active">
+  		<a href="#home" aria-controls="home" role="tab" data-toggle="tab" title="All your notes">
+  		<span style='margin-right:5px;' class='glyphicon glyphicon-th-large' aria-hidden='true'></span>
+  		Notes</a>
+  		</li>
+ 		<li role="presentation">
+ 		<a href="#archive" aria-controls="archive" role="tab" data-toggle="tab" title="Archived Notes">
+ 		<span style='margin-right:5px;' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span>
+ 		Archive</a>
+ 		</li>
+ 		<li role="presentation">
+ 		<a href="#trash" aria-controls="trash" role="tab" data-toggle="tab" title="Deleted Notes">
+ 		<span style='margin-right:5px;' class='glyphicon glyphicon-trash' aria-hidden='true'></span>
+ 		Trash</a>
+ 		</li>
+	</ul>
+	</div>
+	
+	<div class="col-md-10 stickynote" style="background-color:#fff;float:right;padding:0px;height:100%;overflow:auto;">
+		<div id='controls' style="min-height:50px;overflow:auto;background-color:#E8E8E8">
+			<div style="height:50px;">
+				<button type="button" class="btn btn-default" onclick="addNewNote()" style="float:left;margin-top:8px;margin-left:100px">+ New Note</button>
+				<div class="input-group" style="float:left; width:350px;height:50px;padding:8px;margin-left:30px">
+	      			<input id="searchText" type="text" class="form-control">
+	      			<span class="input-group-btn">
+	        			<button class="btn btn-default" type="button" onclick="searchNote()">Search!</button>
+	      			</span>
+	    		</div><!-- /input-group -->
+	    		<div style="float:right;width:100px;color:#000;height:50px;padding:10px 0">
+		    		<span style='font-size:20px;margin-left:10px;' class='glyphicon glyphicon-th' aria-hidden='true'></span>
+		    		<span style='font-size:20px;margin-left:10px;' class='glyphicon glyphicon-align-justify' aria-hidden='true'></span>
+	    		</div>
+    		</div>
+    		
+    	</div>
+    	
+    	<div class="tab-content" style="border-top:1px solid #337AB7;color:red;">
+    		<div role="tabpanel" class="tab-pane fade in active" id="home" style="background-color:#fff;">
+    			<ul id="notes">
+    			This is the notes
+				</ul>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="archive"  style="background-color:#fff;">
+    			<ul id="archive_notes">
+    			This is the archive
+				</ul>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="trash" style="background-color:#fff;">
+    			<ul id="trash_notes">
+    			This is the trash
+				</ul>
+			</div>
+  		</div>
+		
+	</div>
+
+			<!-- PLace your HTML content here -->
+	</div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="notefy/js/index.js"></script>
+  </body>
+</html>

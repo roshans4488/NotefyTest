@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link rel="icon" href="notefy/favicon/favicon.ico">
+	
+    <title>Notefy - Note making made easier</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="notefy/css/login.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Notefy</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Register</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+	<div class="row">	
+    <!-- PLace your HTML content here -->    
+    
+    <div class="col-md-4">
+    <h1 style="color:Blue">Register</h1>
+    <h4>Sign up to start creating beautiful notes</h4>
+    <br />
+    <br />
+    <form class="form-signup" role="form" action="#" th:action="@{/register}" th:object="${userregister}" method="post">
+  <table>
+  <div class="form-group">
+    <label for="registerName">Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Full Name" th:field="*{name}" required>
+    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+  </div>
+  <div class="form-group">
+    <label for="registerInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" th:field="*{email}" required autofocus>
+    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+  </div>
+  <div class="form-group">
+    <label for="registerInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" th:field="*{password}" required>
+    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+  </div>
+   <div class="form-group">
+    <label for="registerInputPassword2">Confirm Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" th:field="*{confirmPassword}" required>
+    <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Name Error</td>
+  </div>
+  
+  <div class="checkbox">
+    <label>
+      <!-- <input type="checkbox"> Receive notifications, newsletters and special offers from Notefy and its partners. -->
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+  </table>
+</form>  
+      
+    </div>  
+      
+      
+	<!-- PLace your HTML content here -->
+	</div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="JQuery/jquery-1.11.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="notefy/js/login.js"></script>
+  </body>
+</html>
